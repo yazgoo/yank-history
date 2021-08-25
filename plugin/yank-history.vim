@@ -23,7 +23,7 @@ function! s:yank_history_yank()
   endif
 endfunction
 
-autocmd TextYankPost * :call yank_history_yank()
+autocmd TextYankPost * :call s:yank_history_yank()
 command! -bang -nargs=0 YankHistoryClean
   \ execute "!rm " . g:yank_history_dir . "/*"
 command! -bang -nargs=0 YankHistoryPaste
