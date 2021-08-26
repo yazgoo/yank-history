@@ -1,5 +1,9 @@
 historize vim yanks and allow to search and paste from history based on FZF
 
+## demo
+
+![demo](https://raw.githubusercontent.com/yazgoo/yank-history/gif/YankHistorySmall.gif)
+
 ## requirements
 
 You need [fzf](https://github.com/junegunn/fzf.vim) installed
