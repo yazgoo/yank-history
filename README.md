@@ -6,7 +6,7 @@ You need [fzf](https://github.com/junegunn/fzf.vim) installed
 
 Via vimplug:
 
-```
+```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 ```
@@ -15,7 +15,7 @@ Plug 'junegunn/fzf.vim'
 
 Via vimplug:
 
-```
+```vim
 Plug 'yazgoo/yank-history'
 ```
 
@@ -25,7 +25,7 @@ See [documentation](doc/yank-history.txt).
 
 An example of usage is:
 
-```
+```vim
 nmap <space>h :YankHistoryRgPaste 
 ```
 
