@@ -1,9 +1,10 @@
 let g:yank_history=[]
 let g:yank_history_dir=$HOME . "/.local/share/yank_history"
 let g:yank_history_tmp_dir = yank_history_dir . "-tmp"
+let s:yank_history_script_dir = expand('<sfile>:p:h')
 
 function! s:yank_history_paste(line)
-  execute 'normal!  o' . join(readfile(a:line, 'b'), "\n")
+  execute 'normal!  o' . join(readfile(split(a:line, ':')[0], 'b'), "\n")
 endfunction
 
 function! YankHistoryYank() 
@@ -24,14 +25,30 @@ function! YankHistoryYank()
 endfunction
 
 autocmd! TextYankPost * :call YankHistoryYank()
+
 command! -bang -nargs=0 YankHistoryClean
   \ execute "!rm " . g:yank_history_dir . "/*"
+
 command! -bang -nargs=0 YankHistoryPaste
   \ call fzf#vim#grep(
   \ 'ls -t ' . g:yank_history_dir .  '/*', 0,
   \   {
-  \     'options': ["--prompt", "> ", "--preview",  '~/.config/nvim/plugged/fzf.vim/bin/preview.sh {}'],
+  \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
   \     'sink': function('s:yank_history_paste')
   \   },
   \   <bang>0
   \ )
+
+command! -bang -nargs=* YankHistoryRg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case  -- '.shellescape(<q-args>).' '.g:yank_history_dir, 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* YankHistoryRgPaste
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case  -- '.shellescape(<q-args>).' '.g:yank_history_dir, 0,
+  \   {
+  \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
+  \     'sink': function('s:yank_history_paste')
+  \   },
+  \ <bang>0)
