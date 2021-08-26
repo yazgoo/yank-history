@@ -1,15 +1,21 @@
-let g:yank_history=[]
+""
+" directory where yank history is stored
 let g:yank_history_dir=$HOME . "/.local/share/yank_history"
+
+""
+" temporary directory for yank history
 let g:yank_history_tmp_dir = yank_history_dir . "-tmp"
+
 let s:yank_history_script_dir = expand('<sfile>:p:h')
+let s:yank_history=[]
 
 function! s:yank_history_paste(line)
   execute 'normal!  o' . join(readfile(split(a:line, ':')[0], 'b'), "\n")
 endfunction
 
 function! YankHistoryYank() 
-  if index(g:yank_history, @0) < 0
-  let g:yank_history = add(g:yank_history, @0)
+  if index(s:yank_history, @0) < 0
+  let s:yank_history = add(s:yank_history, @0)
   call mkdir(g:yank_history_dir, "p", 0700)
   call mkdir(g:yank_history_tmp_dir, "p", 0700)
   let tmp = g:yank_history_tmp_dir . '/' . strftime("%d-%m-%y-%H-%M-%S.").&filetype
@@ -26,9 +32,13 @@ endfunction
 
 autocmd! TextYankPost * :call YankHistoryYank()
 
+""
+" cleanups yank history directory
 command! -bang -nargs=0 YankHistoryClean
   \ execute "!rm " . g:yank_history_dir . "/*"
 
+""
+" opens FZF to select yank history file to be pasted
 command! -bang -nargs=0 YankHistoryPaste
   \ call fzf#vim#grep(
   \ 'ls -t ' . g:yank_history_dir .  '/*', 0,
@@ -39,11 +49,17 @@ command! -bang -nargs=0 YankHistoryPaste
   \   <bang>0
   \ )
 
+""
+" grep within yank history via FZF and opens the file matching the search
+" pattern
 command! -bang -nargs=* YankHistoryRg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case  -- '.shellescape(<q-args>).' '.g:yank_history_dir, 1,
   \   fzf#vim#with_preview(), <bang>0)
 
+""
+" grep within yank history via FZF and paste the content
+" of the file matching the search pattern
 command! -bang -nargs=* YankHistoryRgPaste
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case  -- '.shellescape(<q-args>).' '.g:yank_history_dir, 0,

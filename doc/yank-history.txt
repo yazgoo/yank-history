@@ -1,0 +1,36 @@
+*yank-history.txt*
+                                                                *yank-history*
+
+==============================================================================
+CONTENTS                                               *yank-history-contents*
+  1. Configuration.......................................|yank-history-config|
+  2. Commands..........................................|yank-history-commands|
+
+==============================================================================
+CONFIGURATION                                            *yank-history-config*
+
+                                                          *g:yank_history_dir*
+directory where yank history is stored
+
+                                                      *g:yank_history_tmp_dir*
+temporary directory for yank history
+
+==============================================================================
+COMMANDS                                               *yank-history-commands*
+
+:YankHistoryClean[!]                                       *:YankHistoryClean*
+  cleanups yank history directory
+
+:YankHistoryPaste[!]                                       *:YankHistoryPaste*
+  opens FZF to select yank history file to be pasted
+
+:YankHistoryRg[!]                                             *:YankHistoryRg*
+  grep within yank history via FZF and opens the file matching the search
+  pattern
+
+:YankHistoryRgPaste[!]                                   *:YankHistoryRgPaste*
+  grep within yank history via FZF and paste the content of the file matching
+  the search pattern
+
+
+vim:tw=78:ts=8:ft=help:norl:
