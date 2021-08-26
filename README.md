@@ -18,3 +18,15 @@ Via vimplug:
 ```
 Plug 'yazgoo/yank-history'
 ```
+
+## usage
+
+See [documentation](doc/yank-history.txt).
+
+An example of usage is:
+
+```
+nmap <space>h :YankHistoryRgPaste 
+```
+
+Just input a pattern to search on vim prompt, then select the yank you want to paste.
