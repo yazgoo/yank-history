@@ -32,10 +32,14 @@ endfunction
 
 autocmd! TextYankPost * :call YankHistoryYank()
 
+function! YankHistoryClean()
+  silent execute "!rm " . g:yank_history_dir . "/*"
+  let s:yank_history=[]
+endfunction
+
 ""
 " cleanups yank history directory
-command! -bang -nargs=0 YankHistoryClean
-  \ execute "!rm " . g:yank_history_dir . "/*"
+command! -bang -nargs=0 YankHistoryClean call YankHistoryClean()
 
 ""
 " opens FZF to select yank history file to be pasted
