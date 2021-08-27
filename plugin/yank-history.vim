@@ -15,8 +15,16 @@ let g:yank_history_max_size = 20
 let s:yank_history_script_dir = expand('<sfile>:p:h')
 let s:yank_history_last=""
 
+function! s:get_file_contents(line)
+  return join(readfile(split(a:line, ':')[0], 'b'), "\n")
+endfunction
+
 function! s:yank_history_paste(line)
-  execute 'normal!  o' . join(readfile(split(a:line, ':')[0], 'b'), "\n")
+  execute 'normal!  o' . s:get_file_contents(a:line)
+endfunction
+
+function! s:yank_history_yank(line)
+  let @@ =  s:get_file_contents(a:line)
 endfunction
 
 function! YankHistoryYank() 
@@ -86,5 +94,17 @@ command! -bang -nargs=* YankHistoryRgPaste
   \   {
   \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
   \     'sink': function('s:yank_history_paste')
+  \   },
+  \ <bang>0)
+
+""
+" grep within yank history via FZF and add the content
+" in yank register
+command! -bang -nargs=* YankHistoryRgYank
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case  -- '.shellescape(<q-args>).' '.g:yank_history_dir, 0,
+  \   {
+  \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
+  \     'sink': function('s:yank_history_yank')
   \   },
   \ <bang>0)
