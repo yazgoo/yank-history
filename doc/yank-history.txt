@@ -16,7 +16,8 @@ directory where yank history is stored
 temporary directory for yank history
 
                                                      *g:yank_history_max_size*
-maixum number of yank to keep (0 or less means keeping all of them)
+maximum number of yank to keep 0 or less means keeping all of them default
+value is 20
 
 ==============================================================================
 COMMANDS                                               *yank-history-commands*
