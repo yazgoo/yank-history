@@ -7,8 +7,9 @@ let g:yank_history_dir=$HOME . "/.local/share/yank_history"
 let g:yank_history_tmp_dir = yank_history_dir . "-tmp"
 
 ""
-" maixum number of yank to keep
-" (0 or less means keeping all of them)
+" maximum number of yank to keep
+" 0 or less means keeping all of them
+" default value is 20
 let g:yank_history_max_size = 20
 
 let s:yank_history_script_dir = expand('<sfile>:p:h')

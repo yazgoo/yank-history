@@ -3,6 +3,7 @@
 :YankHistoryRg	yank-history.txt	/*:YankHistoryRg*
 :YankHistoryRgPaste	yank-history.txt	/*:YankHistoryRgPaste*
 g:yank_history_dir	yank-history.txt	/*g:yank_history_dir*
+g:yank_history_max_size	yank-history.txt	/*g:yank_history_max_size*
 g:yank_history_tmp_dir	yank-history.txt	/*g:yank_history_tmp_dir*
 yank-history	yank-history.txt	/*yank-history*
 yank-history-commands	yank-history.txt	/*yank-history-commands*
