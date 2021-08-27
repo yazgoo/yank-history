@@ -6,9 +6,9 @@ historize vim yanks and allow to search and paste from history based on FZF
 
 ## requirements
 
-You need [fzf](https://github.com/junegunn/fzf.vim) and [ripgrep (rg)](https://github.com/BurntSushi/ripgrep)
+You need [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) installed.
 
-Via vimplug:
+You also need [fzf](https://github.com/junegunn/fzf.vim), which you can install via vimplug:
 
 ```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
