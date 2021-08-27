@@ -6,16 +6,21 @@ let g:yank_history_dir=$HOME . "/.local/share/yank_history"
 " temporary directory for yank history
 let g:yank_history_tmp_dir = yank_history_dir . "-tmp"
 
+""
+" maixum number of yank to keep
+" (0 or less means keeping all of them)
+let g:yank_history_max_size = 20
+
 let s:yank_history_script_dir = expand('<sfile>:p:h')
-let s:yank_history=[]
+let s:yank_history_last=""
 
 function! s:yank_history_paste(line)
   execute 'normal!  o' . join(readfile(split(a:line, ':')[0], 'b'), "\n")
 endfunction
 
 function! YankHistoryYank() 
-  if index(s:yank_history, @0) < 0
-  let s:yank_history = add(s:yank_history, @0)
+  if s:yank_history_last != @0
+  let s:yank_history_last = @0
   call mkdir(g:yank_history_dir, "p", 0700)
   call mkdir(g:yank_history_tmp_dir, "p", 0700)
   let tmp = g:yank_history_tmp_dir . '/' . strftime("%d-%m-%y-%H-%M-%S.").&filetype
@@ -26,6 +31,11 @@ function! YankHistoryYank()
     silent execute "!rm " . tmp
   else
     silent execute "!mv " . tmp . " " . out
+  endif
+  let wc_l = trim(system('ls ' . g:yank_history_dir . ' | wc -l'))
+  let num_yanks = str2nr(wc_l)
+  if g:yank_history_max_size > 0 && num_yanks > g:yank_history_max_size
+    silent execute '!rm "$(ls -t ' . g:yank_history_dir . '/*| tail -1)"'
   endif
   endif
 endfunction
@@ -38,7 +48,8 @@ endif
 
 function! YankHistoryClean()
   silent execute "!rm " . g:yank_history_dir . "/*"
-  let s:yank_history=[]
+  silent execute "!rm " . g:yank_history_tmp_dir . "/*"
+  let s:yank_history_last=""
 endfunction
 
 ""
