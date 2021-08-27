@@ -30,7 +30,11 @@ function! YankHistoryYank()
   endif
 endfunction
 
-autocmd! TextYankPost * :call YankHistoryYank()
+if exists('##TextYankPost')
+  autocmd! TextYankPost * :call YankHistoryYank()
+else
+  map y <Plug>(YankHistoryYank)
+endif
 
 function! YankHistoryClean()
   silent execute "!rm " . g:yank_history_dir . "/*"
