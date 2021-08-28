@@ -1,0 +1,16 @@
+[package]
+name = "yank-history"
+version = "0.0.1"
+authors = ["yazgoo <yazgoo@gmail.com>"]
+edition = "2018"
+license = "MIT"
+description = "captures and historizes system clipboard yanks"
+readme = "README.md"
+homepage = "https://github.com/yazgoo/yank-history"
+repository = "https://github.com/yazgoo/yank-history"
+keywords = ["wm", "x11", "terminal"]
+categories = []
+[dependencies]
+x11-clipboard = "0.5"
+md5 = "0.7"
+dirs = "3.0"

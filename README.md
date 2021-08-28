@@ -1,8 +1,9 @@
 historize vim yanks and allow to search and paste from history based on FZF
 
-## demo
 
 ![demo](https://raw.githubusercontent.com/yazgoo/yank-history/gif/YankHistorySmall.gif)
+
+# vim plugin
 
 ## requirements
 
@@ -34,3 +35,11 @@ nmap <space>h :YankHistoryRgPaste
 ```
 
 Just input a pattern to search on vim prompt, then select the yank you want to paste.
+
+# linux clipboard monitor
+
+If you also want to monitor your X11 system clipboard, you
+can use the yank-history rust binary.
+Just do `cargo install yank-history`.
+
+And run `yank-history`.
