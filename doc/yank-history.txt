@@ -28,6 +28,9 @@ COMMANDS                                               *yank-history-commands*
 :YankHistoryPaste[!]                                       *:YankHistoryPaste*
   opens FZF to select yank history file to be pasted
 
+:YankHistoryYank[!]                                         *:YankHistoryYank*
+  opens FZF to select yank history file to be  added to the yank register
+
 :YankHistoryRg[!]                                             *:YankHistoryRg*
   grep within yank history via FZF and opens the file matching the search
   pattern

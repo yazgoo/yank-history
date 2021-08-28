@@ -34,7 +34,7 @@ function! YankHistoryYank()
   call mkdir(g:yank_history_tmp_dir, "p", 0700)
   let tmp = g:yank_history_tmp_dir . '/' . strftime("%d-%m-%y-%H-%M-%S.").&filetype
   call writefile(split(@0, "\n", 1), tmp, 'b')
-  let md5=trim(system('md5sum ' . tmp . ' | cut "-d " -f1'))
+   let md5=trim(system('md5sum ' . tmp . ' | cut "-d " -f1'))
   let out = g:yank_history_dir.'/'.md5.'.'.&filetype
   if filereadable(out)
     silent execute "!rm " . tmp
@@ -73,6 +73,19 @@ command! -bang -nargs=0 YankHistoryPaste
   \   {
   \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
   \     'sink': function('s:yank_history_paste')
+  \   },
+  \   <bang>0
+  \ )
+
+""
+" opens FZF to select yank history file to be 
+" added to the yank register
+command! -bang -nargs=0 YankHistoryYank
+  \ call fzf#vim#grep(
+  \ 'ls -t ' . g:yank_history_dir .  '/*', 0,
+  \   {
+  \     'options': ["--prompt", "> ", "--preview",  s:yank_history_script_dir .'/../../fzf.vim/bin/preview.sh {}'],
+  \     'sink': function('s:yank_history_yank')
   \   },
   \   <bang>0
   \ )
