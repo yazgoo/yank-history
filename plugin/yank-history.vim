@@ -34,7 +34,11 @@ function! YankHistoryYank()
   call mkdir(g:yank_history_tmp_dir, "p", 0700)
   let tmp = g:yank_history_tmp_dir . '/' . strftime("%d-%m-%y-%H-%M-%S.").&filetype
   call writefile(split(@0, "\n", 1), tmp, 'b')
-   let md5=trim(system('md5sum ' . tmp . ' | cut "-d " -f1'))
+    if executable('md5sum')
+      let md5=trim(system('md5sum ' . tmp . ' | cut "-d " -f1'))
+    else
+      let md5=trim(system('md5 <' . tmp))
+    endif
   let out = g:yank_history_dir.'/'.md5.'.'.&filetype
   if filereadable(out)
     silent execute "!rm " . tmp
